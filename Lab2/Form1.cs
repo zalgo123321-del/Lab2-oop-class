@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lab2;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,6 +9,7 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Lab1._1
 {
@@ -20,39 +22,88 @@ namespace Lab1._1
 
         private void button1_Click(object sender, EventArgs e)
         {
+            float x;
+            float y;
+            float width;
+            float height;
 
-            float x = float.Parse(textBox1.Text);
-            float y = float.Parse(textBox2.Text);
-            float size = float.Parse(textBox3.Text);
+            if (comboBox1.Text == "")
+            {
+                MessageBox.Show("Оберіть фігуру");
+                return;
+            }
 
+            if (!float.TryParse(textBox1.Text, out x))
+            {
+                MessageBox.Show("Помилка");
+                return;
+            }
 
-            Square sq = new Square(x, y, size);
+            if (!float.TryParse(textBox2.Text, out y))
+            {
+                MessageBox.Show("Помилка");
+                return;
+            }
 
-            
-            sq.ColorName = "Red";
+            if (!float.TryParse(textBox3.Text, out width))
+            {
+                MessageBox.Show("Помилка");
+                return;
+            }
 
-            
-            sq.Draw(pictureBox1);
+            if (!float.TryParse(textBox4.Text, out height))
+            {
+                MessageBox.Show("Помилка");
+                return;
+            }
 
-            
-            MessageBox.Show(sq.ToString());
+            pictureBox1.Refresh();
 
-            
-            sq.Move(10);
+            Shape shape;
 
-           
-            float factor = 2;
-            sq.Scale(ref factor);
+            switch (comboBox1.Text)
+            {
+                case "П'ятикутник":
 
-            
-            sq.Resize();
+                    shape =
+                        new Pentagon(
+                            x,
+                            y,
+                            width,
+                            height);
 
-            
-            var data = sq.GetData();
-            MessageBox.Show($"X={data.x}, Y={data.y}, Size={data.size}");
+                    break;
+
+                case "Еліпс":
+
+                    shape =
+                        new Ellipse(
+                            x,
+                            y,
+                            width,
+                            height);
+
+                    break;
+
+                default:
+                    return;
+            }
+
+            shape.Draw(
+                pictureBox1,
+                Color.Blue);
+
+            MessageBox.Show(
+                "Площа = " +
+                shape.Area().ToString("F2"));
         }
 
         private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
         {
 
         }
